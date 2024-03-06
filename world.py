@@ -13,6 +13,7 @@ import json
 from inputs import Inputs
 from cell import Cell
 from person import Person
+from mobilityTypes import PublicTransport
 
 
 class World:
@@ -25,6 +26,10 @@ class World:
         # setup simulation:
         self.population = self.initPopulation(parameters['density'])
         Cell.count = 0; Person.count = 0
+        self.cm = 51
+        self.u_max = 5
+        self.av_ratio = 1-self.variables['carUsage']  # needs to be changed to correct initial condition
+        self.publicTransport = PublicTransport(self.av_ratio, self.cm, self.u_max)
         self.cells = self.initCells(self.parameters['convenienceBonus'],self.parameters['convenienceMalus'])
         self.persons = self.initPersons()
         self.nPersons = len(self.persons)
@@ -32,6 +37,8 @@ class World:
         self.network = np.zeros((self.nPersons,self.nPersons))
         self.generateSocialNetwork()
         self.time = 0
+        
+       
                                       
       
     def initPopulation(self, densityType):
@@ -42,7 +49,7 @@ class World:
         cells = list()
         for x in range(len(self.population)):
             for y in range(len(self.population[0])):
-                cell = Cell([x,y], self.population[x][y], bonus, malus)
+                cell = Cell([x,y], self.population[x][y], bonus, malus, self)
                 cells.append(cell)
         return cells
     
@@ -166,11 +173,18 @@ class World:
             for person in self.persons:
                 person.updateMobilityType()
             
+        numberPublic = 0
         for cell in self.cells:
             cell.step()
+            numberPublic += cell.variable['usagePublic']
             for k, key in enumerate(cell.variable.keys()): 
                 self.cellRecord[self.time][cell.id][k] = cell.variable[key] 
-   
+    
+        self.av_ratio = numberPublic/self.nPersons
+
+        self.publicTransport.updateConvenience(self.av_ratio)
+        self.publicTransport.getConvenience()
+
         for person in self.persons:
             person.updateUtility()
             

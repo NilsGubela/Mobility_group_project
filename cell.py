@@ -15,19 +15,21 @@ class Cell():
     finalAttributes = 3
     variableAttributes = 5
     
-    def __init__(self, coordinates, density, bonus, malus):
+    def __init__(self, coordinates, density, bonus, malus, world):
         self.id = self.createId()
-        self.publicTransport = PublicTransport(density)
+        #self.publicTransport = PublicTransport(density)
         self.combustionCar = CombustionCar(density)
         self.bonus = bonus
         self.malus = malus
         self.infraCar = 0
         self.infraPublic = 0
+        self.world = world
         self.final = {'x' : coordinates[0], 'y': coordinates[1], 'density' : density}
-        self.variable = {'convenienceCar': self.combustionCar.convenience, 'conveniencePublic': self.publicTransport.convenience, 
+        self.variable = {'convenienceCar': self.combustionCar.convenience, 'conveniencePublic': self.world.publicTransport.convenience,
                          'usageCar': 0,'usagePublic': 0, 'meanUtility': 2.0}
         self.persons = list()
         self.coordinates = coordinates
+
 
     def createId(self):
          id = Cell.count
@@ -48,8 +50,11 @@ class Cell():
         if self.bonus:
             self.infraCar = (self.infraCar*2 + carProportion)/3
             self.infraPublic = (self.infraPublic*2 + publicProportion)/3
-        self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience + self.infraCar
-        self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.publicTransport.convenience + self.infraPublic
+        #self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience + self.infraCar
+        self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience
+        #self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.publicTransport.convenience + self.infraPublic
+        self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.world.publicTransport.convenience + self.infraPublic
+        
         
     
     def step(self):

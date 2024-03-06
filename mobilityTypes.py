@@ -34,15 +34,24 @@ class CombustionCar(MobilityType):
     
 class PublicTransport(MobilityType):
     name = "public"
-    def __init__(self, density):
-        self.density = density
+    def __init__(self, av_ratio, cm, u_max):
+        #self.density = density
+        self.av_ratio = av_ratio
+        self.cm = cm
+        self.u_max = u_max
         self.convenience = self.getConvenience()
     
     def getConvenience(self):
-        mu = Inputs.popMax
-        sigma = (mu - Inputs.popMin)/2
-        convenience = Tools.gaussian(sigma, mu, self.density)*100
+        #mu = Inputs.popMax
+        #sigma = (mu - Inputs.popMin)/2
+        #convenience = Tools.gaussian(sigma, mu, self.density)*100
+
+        convenience = Tools.sigmoidal(self.av_ratio*100, self.u_max, self.cm)
+
         return convenience
+
+    def updateConvenience(self, av_ratio):
+        self.av_ratio = av_ratio
 
 
     
