@@ -22,11 +22,11 @@ class World:
     def __init__(self, parameters):
         self.parameters = parameters
         self.mobTypeDict = {'car' : 0, 'public': 1}
-        self.variables = {'carUsage': 0.5, 'meanUtility': 0, 'meanUtilityCar': 0, 'meanUtilityPublic': 0, 'meanSimilarity': parameters['nFriends']/2} 
+        self.variables = {'carUsage': 0.72, 'meanUtility': 0, 'meanUtilityCar': 0, 'meanUtilityPublic': 0, 'meanSimilarity': parameters['nFriends']/2} 
         # setup simulation:
         self.population = self.initPopulation(parameters['density'])
         Cell.count = 0; Person.count = 0
-        self.cm = 51
+        self.cm = 50
         self.u_max = 5
         self.av_ratio = 1-self.variables['carUsage']  # needs to be changed to correct initial condition
         self.publicTransport = PublicTransport(self.av_ratio, self.cm, self.u_max)
@@ -172,18 +172,21 @@ class World:
         if time > 0:          
             for person in self.persons:
                 person.updateMobilityType()
-            
+
         numberPublic = 0
         for cell in self.cells:
-            cell.step()
             numberPublic += cell.variable['usagePublic']
-            for k, key in enumerate(cell.variable.keys()): 
-                self.cellRecord[self.time][cell.id][k] = cell.variable[key] 
-    
+
         self.av_ratio = numberPublic/self.nPersons
 
         self.publicTransport.updateConvenience(self.av_ratio)
         self.publicTransport.getConvenience()
+            
+        for cell in self.cells:
+            cell.step()
+            for k, key in enumerate(cell.variable.keys()): 
+                self.cellRecord[self.time][cell.id][k] = cell.variable[key] 
+    
 
         for person in self.persons:
             person.updateUtility()
@@ -206,6 +209,7 @@ class World:
         self.variables['meanUtilityCar'] = np.mean(utilitiesCar)
         self.variables['meanUtilityPublic'] = np.mean(utilitiesPublic)
         self.variables['carUsage'] = len(utilitiesCar)/self.nPersons
+
         self.variables['meanSimilarity'] = np.mean(similarList)
         for k, key in enumerate(self.variables.keys()): 
             self.globalRecord[self.time][k] = self.variables[key]

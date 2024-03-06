@@ -37,6 +37,7 @@ class PublicTransport(MobilityType):
     def __init__(self, av_ratio, cm, u_max):
         #self.density = density
         self.av_ratio = av_ratio
+        self.infraPublic = 0
         self.cm = cm
         self.u_max = u_max
         self.convenience = self.getConvenience()
@@ -47,11 +48,14 @@ class PublicTransport(MobilityType):
         #convenience = Tools.gaussian(sigma, mu, self.density)*100
 
         convenience = Tools.sigmoidal(self.av_ratio*100, self.u_max, self.cm)
-
-        return convenience
+        # add the bonus and malus
+        return(convenience)
+        #return (1-self.av_ratio)/3 *convenience + self.infraPublic
 
     def updateConvenience(self, av_ratio):
         self.av_ratio = av_ratio
+        self.infraPublic = (self.infraPublic*2 + self.av_ratio)/3 
+        #self.infraPublic = 50 if self.av_ratio*100 < self.cm else 0
 
 
     

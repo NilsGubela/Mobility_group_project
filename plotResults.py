@@ -114,7 +114,7 @@ def plotResults(selection, directory= '', **results):
         plotUsage(results['endTime'],  results['nCells'], results['cellProperties'], results['cellRecord'], directory = directory)
     if selection['utilityOverTime']: 
         plotUtilitiesOverTime(results['endTime']+1, results['globalRecord'][:,1], results['globalRecord'][:,2], results['globalRecord'][:,3], directory = directory)
-    if selection['carUsageOverTime']: plotVariableOverTime(results['endTime']+1, results['globalRecord'][:,0], figname = directory + 'utilityOverTime.png')
+    if selection['carUsageOverTime']: plotVariableOverTime(results['endTime']+1, results['globalRecord'][:,0], figname = directory + 'carUsageOverTime.png')
     if selection['similarityOverTime']: plotVariableOverTime(results['endTime']+1, results['globalRecord'][:,4], directory + 'similarity.png' )
 
     

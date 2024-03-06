@@ -17,8 +17,8 @@ import matplotlib.pyplot as plt
 
 parameters ={'runs': 100,
              'timeSteps': 71,
-             'density': 3, # choose between population mpas 1,2,3,4
-             'initialChoice': 1, # choose between initial choice sets 1,2,3,4
+             'density': 2, # choose between population mpas 1,2,3,4
+             'initialChoice': 2, # choose between initial choice sets 1,2,3,4
              'nFriends': 15,
              'friendsLocally': True,
              'loadNetwork': False,

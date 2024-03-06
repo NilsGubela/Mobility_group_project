@@ -48,12 +48,13 @@ class Cell():
         carProportion = self.variable['usageCar']/self.final['density']
         publicProportion = self.variable['usagePublic']/self.final['density']
         if self.bonus:
-            self.infraCar = (self.infraCar*2 + carProportion)/3
-            self.infraPublic = (self.infraPublic*2 + publicProportion)/3
+            #self.infraCar = (self.infraCar*2 + carProportion)/3
+            self.infraPublic = (self.infraPublic*2 + publicProportion)/3 
         #self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience + self.infraCar
         self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience
         #self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.publicTransport.convenience + self.infraPublic
         self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.world.publicTransport.convenience + self.infraPublic
+        #self.variable['conveniencePublic'] =  self.world.publicTransport.convenience 
         
         
     

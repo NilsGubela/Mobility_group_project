@@ -34,5 +34,6 @@ class Tools:
         return [element/sumArray for element in array]
 
     def sigmoidal(x, u_max, cm):
-        return(u_max/(1+np.exp(-(x-cm))))
+        #return(0.5+ u_max/(1+np.exp(-(x-cm))))
+        return np.exp(x/cm) if x < cm else u_max
         #return(x/100*u_max)
