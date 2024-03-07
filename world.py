@@ -22,11 +22,11 @@ class World:
     def __init__(self, parameters):
         self.parameters = parameters
         self.mobTypeDict = {'car' : 0, 'public': 1}
-        self.variables = {'carUsage': 0.72, 'meanUtility': 0, 'meanUtilityCar': 0, 'meanUtilityPublic': 0, 'meanSimilarity': parameters['nFriends']/2} 
+        self.variables = {'carUsage': 0.92, 'meanUtility': 0, 'meanUtilityCar': 0, 'meanUtilityPublic': 0, 'meanSimilarity': parameters['nFriends']/2} 
         # setup simulation:
         self.population = self.initPopulation(parameters['density'])
         Cell.count = 0; Person.count = 0
-        self.cm = 50
+        self.cm = 5
         self.u_max = 5
         self.av_ratio = 1-self.variables['carUsage']  # needs to be changed to correct initial condition
         self.publicTransport = PublicTransport(self.av_ratio, self.cm, self.u_max)
@@ -37,9 +37,7 @@ class World:
         self.network = np.zeros((self.nPersons,self.nPersons))
         self.generateSocialNetwork()
         self.time = 0
-        
-       
-                                      
+                                        
       
     def initPopulation(self, densityType):
         density = Inputs.initDensity(densityType)
@@ -81,6 +79,7 @@ class World:
                 person.generateFriends(persons, self.parameters['nFriends'], self.parameters['friendsLocally'])
                 for friend in person.friends:
                     self.network[person.id][friend.id] = 1
+            np.save('initMatrix.npy', self.network)
             # for person in self.persons:
             #     persons = cp.copy(self.persons)
             #     m = person.variable['mobilityType']
@@ -92,6 +91,7 @@ class World:
         if initChoice == 1: mobTypes = Inputs.initChoice1
         elif initChoice == 2: mobTypes = Inputs.initChoice2
         elif initChoice == 3: mobTypes = Inputs.initChoice3
+        elif initChoice == "Phoenix": mobTypes = Inputs.create_Phoenix_cars()
         else:
             mobTypes = list()
             for i in range(len(self.persons)):
@@ -150,7 +150,7 @@ class World:
         self.cellRecord = np.zeros((timeSteps, len(self.cells), Cell.variableAttributes), dtype = float)
         self.personRecord = np.zeros((timeSteps, len(self.persons), Person.variableAttributes), dtype = float)
         self.globalRecord = np.zeros((timeSteps, len(self.variables)), dtype = float)
-              
+
         for time in range(0,timeSteps):
             self.time = time
             self.step(time)   

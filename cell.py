@@ -45,29 +45,34 @@ class Cell():
         return factor
     
     def updateConveniences(self):
-        carProportion = self.variable['usageCar']/self.final['density']
-        publicProportion = self.variable['usagePublic']/self.final['density']
+        if self.final['density'] == 0:
+            carProportion = float("nan")
+            publicProportion = float("nan")
+        else:
+            carProportion = self.variable['usageCar']/self.final['density']
+            publicProportion = self.variable['usagePublic']/self.final['density']
         if self.bonus:
             #self.infraCar = (self.infraCar*2 + carProportion)/3
             self.infraPublic = (self.infraPublic*2 + publicProportion)/3 
         #self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience + self.infraCar
         self.variable['convenienceCar'] = self.updateMalus(carProportion) * self.combustionCar.convenience
         #self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.publicTransport.convenience + self.infraPublic
-        self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.world.publicTransport.convenience + self.infraPublic
-        #self.variable['conveniencePublic'] =  self.world.publicTransport.convenience 
+        #self.variable['conveniencePublic'] = self.updateMalus(publicProportion) * self.world.publicTransport.convenience + self.infraPublic
+        self.variable['conveniencePublic'] =  self.world.publicTransport.convenience 
         
         
     
     def step(self):
-        usageCar = 0
-        usagePublic = 0
-        for person in self.persons:
-            if person.variable['mobilityType']: usagePublic += 1
-            else: usageCar += 1
-        self.variable['usageCar'] = usageCar
-        self.variable['usagePublic'] = usagePublic
-        self.updateConveniences()
-        self.variable['meanUtility'] = (self.variable['convenienceCar']*usageCar + self.variable['conveniencePublic']*usagePublic) / (usageCar+usagePublic)
-        
+        if self.final['density'] > 0:
+            usageCar = 0
+            usagePublic = 0
+            for person in self.persons:
+                if person.variable['mobilityType']: usagePublic += 1
+                else: usageCar += 1
+            self.variable['usageCar'] = usageCar
+            self.variable['usagePublic'] = usagePublic
+            self.updateConveniences()
+            self.variable['meanUtility'] = (self.variable['convenienceCar']*usageCar + self.variable['conveniencePublic']*usagePublic) / (usageCar+usagePublic)
+            
             
         

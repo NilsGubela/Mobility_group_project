@@ -1,0 +1,1 @@
+{"timeSteps": 10, "density": "Phoenix", "initialChoice": "Phoenix", "nFriends": 15, "friendsLocally": true, "loadNetwork": false, "weightFriends": true, "convenienceBonus": true, "convenienceMalus": true, "simulationName": "dPhoenix-f15-locTrue-bonTrue-malTrue-"}

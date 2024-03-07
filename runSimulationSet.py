@@ -59,6 +59,7 @@ for name in names:
     overallUtility.append(globalRecord[endTime][1])
     
     
+    
 cellProperties = np.load(name+'cellProperties.npy')
 nCells = len(cellProperties)
 

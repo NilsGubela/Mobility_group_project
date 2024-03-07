@@ -49,13 +49,14 @@ class PublicTransport(MobilityType):
 
         convenience = Tools.sigmoidal(self.av_ratio*100, self.u_max, self.cm)
         # add the bonus and malus
-        return(convenience)
-        #return (1-self.av_ratio)/3 *convenience + self.infraPublic
+        #return(convenience)
+        #return (1-self.av_ratio/3) *convenience + self.infraPublic
+        self.convenience = (1-self.av_ratio/3) *convenience + self.infraPublic
 
     def updateConvenience(self, av_ratio):
         self.av_ratio = av_ratio
         self.infraPublic = (self.infraPublic*2 + self.av_ratio)/3 
-        #self.infraPublic = 50 if self.av_ratio*100 < self.cm else 0
+        #self.infraPublic = 1000 if self.av_ratio*100 < self.cm else 0
 
 
     

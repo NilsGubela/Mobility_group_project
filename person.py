@@ -50,7 +50,8 @@ class Person:
         if self.variable['mobilityType'] == 0: 
             convenience = self.cell.variable['convenienceCar']
         elif self.variable['mobilityType'] == 1: 
-            convenience = self.cell.variable['conveniencePublic']      
+            convenience = self.cell.variable['conveniencePublic'] 
+            # alter     
         return convenience
  
     

@@ -10,9 +10,9 @@ Created on Thu Apr  7 13:29:07 2022
 # ========== run simulation  ==========
 from world import World
 
-parameters ={'timeSteps': 100,
-             'density': 2, # choose between population mpas 1,2,3,4
-             'initialChoice': 1, # choose between initial choice sets 1,2,3,4
+parameters ={'timeSteps': 50,
+             'density': "Phoenix", # choose between population mpas 1,2,3,4
+             'initialChoice': "Phoenix", # choose between initial choice sets 1,2,3,4
              'nFriends': 15,
              'friendsLocally': True,
              'loadNetwork': False,
@@ -23,6 +23,7 @@ parameters ={'timeSteps': 100,
 parameters['simulationName'] = ('d'+ str(parameters['density']) + '-f' + str(parameters['nFriends']) +
           '-loc' + str(parameters['friendsLocally']) +'-bon' + 
           str(parameters['convenienceBonus']) +'-mal' + str(parameters['convenienceMalus']) +'-')
+
 
 world= World(parameters)
 world.runSimulation()
@@ -38,7 +39,7 @@ plotSelection = {'population':1,
          'conveniencesEnd': 1,
          'usageMaps': True,
          'usagePerCell': [],# [[0,0],[1,5],[4,0],[5,5]], # add a list of cells by coordinates, e.g. [[1,1],[3,4]],
-         'utilityOverTime': 0,
+         'utilityOverTime': 1,
          'carUsageOverTime': 1,
          'similarityOverTime': 0
         }
