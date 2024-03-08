@@ -1,0 +1,1 @@
+{"timeSteps": 100, "density": 2, "initialChoice": 2, "nFriends": 15, "friendsLocally": true, "loadNetwork": false, "weightFriends": true, "convenienceBonus": true, "convenienceMalus": true, "simulationName": "d2-f15-locTrue-bonTrue-malTrue-"}

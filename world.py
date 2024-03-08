@@ -19,15 +19,16 @@ from mobilityTypes import PublicTransport
 class World:
     
 #----- Initialize ----- 
-    def __init__(self, parameters):
+    def __init__(self, parameters, cm, u_max):
         self.parameters = parameters
         self.mobTypeDict = {'car' : 0, 'public': 1}
         self.variables = {'carUsage': 0.92, 'meanUtility': 0, 'meanUtilityCar': 0, 'meanUtilityPublic': 0, 'meanSimilarity': parameters['nFriends']/2} 
         # setup simulation:
         self.population = self.initPopulation(parameters['density'])
         Cell.count = 0; Person.count = 0
-        self.cm = 5
-        self.u_max = 5
+        self.cm = cm
+        self.u_max = u_max
+        #self.bonus = bonus
         self.av_ratio = 1-self.variables['carUsage']  # needs to be changed to correct initial condition
         self.publicTransport = PublicTransport(self.av_ratio, self.cm, self.u_max)
         self.cells = self.initCells(self.parameters['convenienceBonus'],self.parameters['convenienceMalus'])
@@ -79,7 +80,7 @@ class World:
                 person.generateFriends(persons, self.parameters['nFriends'], self.parameters['friendsLocally'])
                 for friend in person.friends:
                     self.network[person.id][friend.id] = 1
-            np.save('initMatrix.npy', self.network)
+            #np.save('initMatrix.npy', self.network)
             # for person in self.persons:
             #     persons = cp.copy(self.persons)
             #     m = person.variable['mobilityType']
@@ -154,7 +155,8 @@ class World:
         for time in range(0,timeSteps):
             self.time = time
             self.step(time)   
-            
+        
+        print(self.av_ratio)
         np.save(name+'cellRecord',self.cellRecord)
         np.save(name+'personRecord',self.personRecord)
         np.save(name+'globalRecord',self.globalRecord)       
@@ -181,7 +183,7 @@ class World:
 
         self.publicTransport.updateConvenience(self.av_ratio)
         self.publicTransport.getConvenience()
-            
+        
         for cell in self.cells:
             cell.step()
             for k, key in enumerate(cell.variable.keys()): 

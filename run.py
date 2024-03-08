@@ -10,9 +10,9 @@ Created on Thu Apr  7 13:29:07 2022
 # ========== run simulation  ==========
 from world import World
 
-parameters ={'timeSteps': 50,
-             'density': "Phoenix", # choose between population mpas 1,2,3,4
-             'initialChoice': "Phoenix", # choose between initial choice sets 1,2,3,4
+parameters ={'timeSteps': 25,
+             'density': 'Phoenix', # choose between population mpas 1,2,3,4
+             'initialChoice': 'Phoenix', # choose between initial choice sets 1,2,3,4
              'nFriends': 15,
              'friendsLocally': True,
              'loadNetwork': False,
@@ -24,8 +24,11 @@ parameters['simulationName'] = ('d'+ str(parameters['density']) + '-f' + str(par
           '-loc' + str(parameters['friendsLocally']) +'-bon' + 
           str(parameters['convenienceBonus']) +'-mal' + str(parameters['convenienceMalus']) +'-')
 
+cm = 2
+#bonus = 1000
+u_max = 10
 
-world= World(parameters)
+world= World(parameters,cm, u_max)
 world.runSimulation()
 
 

@@ -73,6 +73,15 @@ class Cell():
             self.variable['usagePublic'] = usagePublic
             self.updateConveniences()
             self.variable['meanUtility'] = (self.variable['convenienceCar']*usageCar + self.variable['conveniencePublic']*usagePublic) / (usageCar+usagePublic)
+        else:
+            usageCar = 0
+            usagePublic = 0
+            self.variable['usageCar'] = usageCar
+            self.variable['usagePublic'] = usagePublic
+            self.updateConveniences()
+            self.variable['meanUtility'] = (self.variable['convenienceCar']*usageCar + self.variable['conveniencePublic']*usagePublic)
+
+
             
             
         
